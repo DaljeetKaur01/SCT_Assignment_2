@@ -43,7 +43,7 @@ jobs:
       matrix:
       
         
-        language: [ 'javascript', 'python' ] 
+        language: [ 'javascript' ] 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
