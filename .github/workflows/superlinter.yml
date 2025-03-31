@@ -1,20 +1,33 @@
-name: Super-Linter
+---
+name: Lint
 
-on:
-  push:
-  pull_request:
+on: # yamllint disable-line rule:truthy
+  push: null
+  pull_request: null
+
+permissions: {}
 
 jobs:
-  lint:
-    name: Lint Code Base
+  build:
+    name: Lint
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
 
-      - name: Run Super-Linter
-        uses: github/super-linter@v5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.3.0 # x-release-please-version
         env:
-          VALIDATE_PYTHON: true
+          # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
